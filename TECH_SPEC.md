@@ -111,13 +111,35 @@ possible.
 | `domain`             | `0.9.2342.19200300.100.4.13` | Structural | `top`                  | `dc`          |
 | `inetOrgPerson`      | `2.16.840.1.113730.3.2.2`    | Structural | `organizationalPerson` | -             |
 
-### 4.3 APIs
+### 4.3 Application-Specific Schemas
+
+These schemas define the data models specific to the rmm26 application, such as daemon configurations and network
+equipment types.
+
+#### 4.3.1 Custom Attribute Types
+
+| Name         | OID                        | Syntax           | Description                                |
+|:-------------|:---------------------------|:-----------------|:-------------------------------------------|
+| `configData` | `1.3.6.1.4.1.99999.1.1`    | Directory String | JSON-encoded configuration data for daemon |
+| `ipAddress`  | `1.3.6.1.4.1.1466.115.1.4` | Directory String | IP Address (IPv4 or IPv6)                  |
+| `modelName`  | `1.3.6.1.4.1.99999.1.2`    | Directory String | Hardware model name                        |
+| `capacity`   | `1.3.6.1.4.1.99999.1.3`    | Integer          | Capacity/Throughput in Gbps                |
+
+#### 4.3.2 Custom Object Classes
+
+| Name           | OID                     | Type       | Superior | Must               | May                        |
+|:---------------|:------------------------|:-----------|:---------|:-------------------|:---------------------------|
+| `daemonConfig` | `1.3.6.1.4.1.99999.2.1` | Structural | `top`    | `cn`, `configData` | `description`              |
+| `router`       | `1.3.6.1.4.1.99999.2.2` | Structural | `top`    | `cn`, `ipAddress`  | `modelName`, `description` |
+| `bigRouter`    | `1.3.6.1.4.1.99999.2.3` | Structural | `router` | `capacity`         | -                          |
+
+### 4.4 APIs
 
 Define internal/external APIs or interfaces.
 
 - **Endpoint:** Description, input, output.
 
-### 4.4 Components
+### 4.5 Components
 
 - **Component 1:** Role and responsibility.
 
