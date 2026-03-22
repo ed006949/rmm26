@@ -133,13 +133,57 @@ equipment types.
 | `router`       | `1.3.6.1.4.1.99999.2.2` | Structural | `top`    | `cn`, `ipAddress`  | `modelName`, `description` |
 | `bigRouter`    | `1.3.6.1.4.1.99999.2.3` | Structural | `router` | `capacity`         | -                          |
 
-### 4.4 APIs
+### 4.4 Data Consistency and Verification
+
+To ensure data integrity, rmm26 performs several checks before saving any entry to Redis.
+
+#### 4.4.1 On-Save Validation Rules
+
+All `Save` operations must trigger a validation pipeline:
+
+1. **DN Validation:**
+    - The `dn` must be a valid, comma-separated Distinguished Name.
+    - Each Relative Distinguished Name (RDN) must follow the `attributeType=value` format.
+2. **Structural Validation (Object Classes):**
+    - The `objectClass` attribute must be present and contain at least one Structural object class.
+    - The entry must contain all attributes marked as `Must` in its object classes (and their superiors).
+    - Any attribute present in the entry must be either a `Must` or `May` attribute of one of its object classes.
+3. **Attribute Syntax Validation:**
+    - Values for attributes must conform to their defined syntax (e.g., Integer, Boolean, Generalized Time).
+    - **Directory String:** Must be valid UTF-8.
+    - **Generalized Time:** Must follow ISO 8601 / RFC 4517 format.
+    - **IP Address:** Must be a valid IPv4 or IPv6 address.
+    - **Integer:** Must be a numeric value within the 64-bit integer range.
+4. **Operational Consistency:**
+    - `entryUUID` must be generated if not present (on creation).
+    - `createTimestamp` must be set on creation.
+
+#### 4.4.2 Pre-Checks for External Data
+
+For data loaded from outer sources (e.g., external APIs, legacy database migrations, CSV imports), an additional
+pre-check layer is required before it enters the standard "On-Save" validation pipeline.
+
+1. **Source Authenticity and Integrity:**
+    - Verify that the data originates from a trusted and authorized source.
+    - Check for data corruption or incomplete transfers (e.g., using checksums or record counts).
+2. **Schema Alignment:**
+    - Ensure external data fields are correctly mapped to rmm26 attribute types.
+    - Validate that the external source provides all mandatory attributes required for the target object class.
+3. **Conflict Detection:**
+    - Check if the entry's Distinguished Name (DN) already exists in Redis.
+    - Define a conflict resolution policy (e.g., skip, overwrite, or merge).
+4. **Data Normalization:**
+    - Trim whitespace from strings.
+    - Convert external date/time formats to ISO 8601 (Generalized Time).
+    - Ensure IP addresses are in a canonical representation.
+
+### 4.5 APIs
 
 Define internal/external APIs or interfaces.
 
 - **Endpoint:** Description, input, output.
 
-### 4.5 Components
+### 4.6 Components
 
 - **Component 1:** Role and responsibility.
 
