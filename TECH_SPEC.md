@@ -31,6 +31,8 @@ monitoring data for visualization.
 ### 3.1 High-Level Architecture
 
 - **Core Principle:** All communication flows through Redis using the `rueidis` client.
+- **Modularity:** Each app module is a separate module for future independent use. Right now they're all placed in one
+  project for development.
 - **Data Persistence:** Primary data store is Redis, leveraging RedisJSON for structured data and RediSearch for
   querying.
 - **Memory Management:** Minimal data is stored in RAM; the application remains largely stateless, relying on Redis for
@@ -198,7 +200,41 @@ Define internal/external APIs or interfaces.
 
 ### 4.6 Components
 
-- **Component 1:** Role and responsibility.
+- **aaa:** Authentication, Authorization, and Accounting.
+- **conf:** Configuration management and parsing.
+- **daemon:** Core daemon logic and lifecycle management.
+- **db:** Redis database interactions and helpers.
+- **device:** Device and host configuration management.
+- **monitor:** Monitoring data generation and publishing.
+- **portal:** User content portal services.
+
+### 4.7 Minimal Configuration
+
+To facilitate rapid deployment and support multi-node operations, `rmm26` can be started with a minimal set of
+configuration parameters. These settings are essential for identifying the node and connecting it to the central data
+backbone.
+
+#### 4.7.1 Mandatory Parameters
+
+1. **DB Full URL:** The complete Redis connection URL (e.g., `redis://192.0.2.2:6379`). This includes the protocol,
+   host, port, and any necessary credentials (e.g., `redis://:password@host:port`) for the central Redis data backbone.
+2. **Node UUID:** A unique identifier for the specific daemon instance (e.g., `00000000-0000-0000-0000-000000000000`).
+3. **Node description:** Essential description for identifying the node within a multi-node cluster and for labeling
+   generated monitoring data.
+
+#### 4.7.2 Node Identifier (UUID)
+
+The daemon requires a unique Universally Unique Identifier (UUID) for internal tracking and consistency across the
+cluster. The resolution order for the node UUID is:
+
+1. **Config:** Read the UUID from the configuration file if specified (via the `uuid` field).
+2. **Host UUID:** If no UUID is provided in the configuration, the daemon attempts to retrieve the hardware UUID of the
+   host system.
+3. **Generation:** If neither a configured UUID nor a host-specific UUID is available, the daemon generates a new random
+   UUID at startup.
+
+These parameters ensure the daemon can successfully connect to the primary data store and correctly attribute its
+activities and monitoring metrics.
 
 ## 5. Security Considerations
 
