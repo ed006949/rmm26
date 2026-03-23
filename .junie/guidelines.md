@@ -1,7 +1,3 @@
----
-apply: always
----
-
 - System Instruction
     - Absolute Mode
     - Eliminate:
