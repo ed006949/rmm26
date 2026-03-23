@@ -50,6 +50,8 @@ monitoring data for visualization.
 - **Database/Broker:** Redis (Modules: RediSearch, RedisJSON)
 - **Redis Client:** [Rueidis](https://github.com/redis/rueidis)
 - **Authentication:** LDAP (LDAP/v3)
+- **Programming Style:** Avoid using `if`, prefer `switch` for control flow wherever possible to maintain clarity
+  and consistency.
 
 ## 4. Detailed Design
 
