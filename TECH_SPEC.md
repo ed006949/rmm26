@@ -2,14 +2,25 @@
 
 ## 1. Overview
 
-Briefly describe the purpose of the rmm26 application.
+`rmm26` is a Remote Monitoring and Management daemon written in Go, designed to leverage Redis as its central
+data backbone. It uses Redis for persistent storage (RedisJSON/RediSearch), message queuing, and real-time data
+exchange. The primary objective is to manage device configurations, provide a user content portal, and generate
+monitoring data for visualization.
 
 ## 2. Goals and Non-Goals
 
 ### 2.1 Goals
 
-- Goal 1: Describe a primary objective.
-- Goal 2: Describe another primary objective.
+- **Daemon Operation:** Run as a persistent background service (daemon).
+- **Redis-Centric Infrastructure:** Use Redis as the single source of truth and communication backbone:
+    - **Database:** Structured storage for persistent data.
+    - **Message Queue (MQ):** Asynchronous task processing and inter-component communication.
+    - **Data Exchange:** Real-time data sharing between different modules or instances.
+    - **Primary Data Storage:** All application state resides in Redis.
+- **AAA (Authentication, Authorization, and Accounting):** Implement a robust security framework.
+- **Device/Host Configuration Management:** Centralized management of profiles and configurations for devices.
+- **User Loadable Content Portal:** A portal for users to access and load content (e.g., VPN profiles).
+- **Monitoring & Observability:** Generate online monitor data suitable for visualization (e.g., Grafana).
 
 ### 2.2 Non-Goals
 
