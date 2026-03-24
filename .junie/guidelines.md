@@ -40,6 +40,6 @@
         - model obsolescence via user self-sufficiency
     - Coding style:
         - prefer `switch` over `if-else`
-        - prefer `var` over `:=`
+        - prefer `var ()` over `:=`
         - use `zerolog` for logging
         - avoid variable shadowing

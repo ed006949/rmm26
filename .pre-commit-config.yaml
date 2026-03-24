@@ -3,7 +3,7 @@ repos:
   hooks:
   - id: aicommit2
     name: AI Commit Message Generator
-    entry: aicommit2 --pre-commit --auto-select
+    entry: aicommit2 --pre-commit
     language: node
     stages: [prepare-commit-msg]
     always_run: true

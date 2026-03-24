@@ -1,41 +1,70 @@
 {
   "version": "2",
   "linters": {
-    "default" : "fast",
-    "disable" : [
+    "default": "fast",
+    "disable": [
       "unused",
       "lll",
       "wsl",
       "cyclop",
       "gocognit",
       "funlen",
-      "nakedret"
-    ],
-    "enable"  : [
-      "tagalign",
+      "nakedret",
       "wsl_v5"
+    ],
+    "enable": [
+      "tagalign"
     ],
     "settings": {
       "depguard": {
         "rules": {
           "main": {
             "list-mode": "lax",
-            "allow"    : [
+            "allow": [
               "**"
             ]
           }
         }
       },
       "tagalign": {
-        "align" : true,
-        "sort"  : true,
+        "align": true,
+        "sort": true,
         "strict": true
       },
-      "wsl_v5"  : {
+      "wsl_v5": {
         "allow-first-in-block": true,
-        "allow-whole-block"   : false,
-        "branch-max-lines"    : 2
+        "allow-whole-block": false,
+        "branch-max-lines": 2
       }
+    }
+  },
+  "formatters": {
+    "enable": [
+      "gofmt",
+      "goimports",
+      "gci",
+      "golines",
+      "swaggo"
+    ],
+    "settings": {
+      "gci": {
+        "sections": [
+          "standard",
+          "default"
+        ]
+      },
+      "golines": {
+        "max-len": 1024,
+        "tab-len": 4,
+        "shorten-comments": false,
+        "reformat-tags": true,
+        "chain-split-dots": true
+      }
+    },
+    "exclusions": {
+      "warn-unused": true,
+      "generated": "strict",
+      "paths": []
     }
   }
 }
